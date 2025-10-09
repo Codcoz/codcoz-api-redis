@@ -110,7 +110,7 @@ def set_value():
     tipo_registro = data.get("tipo_registro")
 
     if not tipo_registro:
-        return jsonify({"error": "É necessário fornecer o campo 'tipo'"}), 400
+        return jsonify({"error": "É necessário fornecer o campo 'tipo_registro'"}), 400
     if not id_produto:
         return jsonify({"error": "É necessário fornecer o campo 'id_produto'"}), 400
     if not nome_produto:
