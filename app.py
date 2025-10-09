@@ -91,7 +91,7 @@ def rd_filtrar_registros(dados: list, tipo_registro: str, periodo: str, tipo_ord
 
 @app.route("/config/set", methods=["POST"])
 def set_config_value() -> bool:
-    data = request.get_json
+    data = request.get_json()
 
     dias_expiracao = data.get("dias_expiracao")
 
