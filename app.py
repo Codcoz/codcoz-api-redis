@@ -127,7 +127,7 @@ def set_value():
     else:
         return jsonify({"error": f"Há algo de errado nos parâmetros do body."})
 
-@app.route("/delete/key", methods=["DELETE"])
+@app.route("/delete/<key>", methods=["DELETE"])
 def delete_value_by_id(key):
     result_del = rd_excluir_registro(key)
     if result_del:
