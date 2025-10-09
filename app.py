@@ -23,9 +23,9 @@ def rd_setar_tempo_ttl(dias: int) -> bool:
     return result_set
 
 def rd_excluir_registro(id) -> bool:
-    num_campos_excluidos = r.hdel(f"{CHAVE_HISTORICO_BAIXAS}:{str(id)}")
+    num_chaves_excluidas = r.delete(f"{CHAVE_HISTORICO_BAIXAS}:{str(id)}")
 
-    return True if num_campos_excluidos > 0 else False
+    return True if num_chaves_excluidas > 0 else False
 
 def rd_setar_registro(item_historico: dict) -> int:
     # Incrementando o "id" serialmente
