@@ -140,7 +140,7 @@ def get_value_by_id(key):
     result = rd_buscar_registro_por_id(key)
     if result is None:
         return jsonify({"error": f"Registro com id: {key} não encontrada"}), 404
-    return jsonify({id: result})
+    return jsonify({key: result})
 
 @app.route("/get", methods=["GET"])
 def get_values():
