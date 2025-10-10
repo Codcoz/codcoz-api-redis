@@ -23,9 +23,9 @@ def rd_setar_tempo_ttl(dias: int) -> bool:
     return result_set
 
 def rd_excluir_registro(id) -> bool:
-    num_campos_excluidos = r.hdel(f"{CHAVE_HISTORICO_BAIXAS}:{str(id)}")
+    num_chaves_excluidas = r.delete(f"{CHAVE_HISTORICO_BAIXAS}:{str(id)}")
 
-    return True if num_campos_excluidos > 0 else False
+    return True if num_chaves_excluidas > 0 else False
 
 def rd_setar_registro(item_historico: dict) -> int:
     # Incrementando o "id" serialmente
@@ -91,7 +91,7 @@ def rd_filtrar_registros(dados: list, tipo_registro: str, periodo: str, tipo_ord
 
 @app.route("/config/set", methods=["POST"])
 def set_config_value() -> bool:
-    data = request.get_json
+    data = request.get_json()
 
     dias_expiracao = data.get("dias_expiracao")
 
@@ -110,7 +110,7 @@ def set_value():
     tipo_registro = data.get("tipo_registro")
 
     if not tipo_registro:
-        return jsonify({"error": "É necessário fornecer o campo 'tipo'"}), 400
+        return jsonify({"error": "É necessário fornecer o campo 'tipo_registro'"}), 400
     if not id_produto:
         return jsonify({"error": "É necessário fornecer o campo 'id_produto'"}), 400
     if not nome_produto:
@@ -127,7 +127,7 @@ def set_value():
     else:
         return jsonify({"error": f"Há algo de errado nos parâmetros do body."})
 
-@app.route("/delete/key", methods=["DELETE"])
+@app.route("/delete/<key>", methods=["DELETE"])
 def delete_value_by_id(key):
     result_del = rd_excluir_registro(key)
     if result_del:
@@ -140,7 +140,7 @@ def get_value_by_id(key):
     result = rd_buscar_registro_por_id(key)
     if result is None:
         return jsonify({"error": f"Registro com id: {key} não encontrada"}), 404
-    return jsonify({id: result})
+    return jsonify({key: result})
 
 @app.route("/get", methods=["GET"])
 def get_values():
