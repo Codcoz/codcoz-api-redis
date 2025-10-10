@@ -26,4 +26,3 @@
  
 ## Link da Tarefa do Jira relacionada:
 > Favor incluir o link da tarefa referente ao card do Jira
- 
