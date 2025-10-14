@@ -155,5 +155,13 @@ def get_values():
 
     return jsonify({"historico_baixas": rd_filtrar_registros(dados=resultados, tipo_registro=tipo_registro, periodo=periodo, tipo_ordenacao=tipo_ordenacao)})
 
+@app.route("/health", methods=["GET"])
+def health_check():
+    return jsonify({
+        "status": "ok",
+        "timestamp": datetime.now().isoformat(),
+        "uptime": "Serviço ativo"
+    })
+
 if __name__ == "__main__":
     app.run(debug=True)
