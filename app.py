@@ -53,7 +53,7 @@ def rd_setar_registro(item_historico: dict, empresa_id) -> int:
     
     r.expire(f"{CHAVE_HISTORICO_BAIXAS}:{historico_id}", dias_ttl * TEMPO_TTL)
     
-    return historico_id if num_campos_adicionados > 0 else 0, dias_ttl
+    return historico_id if num_campos_adicionados > 0 else 0
 
 def rd_buscar_registro_por_id(historico_id, empresa_id) -> dict:  
     return r.hgetall(f"{CHAVE_HISTORICO_BAIXAS}:{str(empresa_id)}:{str(historico_id)}")
@@ -140,18 +140,18 @@ def set_value(empresa_id):
     if not data_acontecimento:
         return jsonify({"error": "É necessário fornecer o campo 'data_acontecimento'"}), 400
 
-    result_set, dias = rd_setar_registro(item_historico=data, empresa_id=empresa_id) 
+    result_set = rd_setar_registro(item_historico=data, empresa_id=empresa_id) 
 
     if result_set > 0:
-        return jsonify({"message": f"Registro com id: {result_set} armazenado com sucesso!"})
+        return jsonify({"message": f"Registro com id: {result_set} armazenado com sucesso!"}), 200
     else:
-        return jsonify({"error": f"Há algo de errado nos parâmetros do body."})
+        return jsonify({"error": f"Há algo de errado nos parâmetros do body."}), 500
 
 @app.route("/api/v1/empresa/<empresa_id>/historico_baixas/<historico_id>", methods=["DELETE"])
 def delete_value_by_id(empresa_id, historico_id):
     result_del = rd_excluir_registro(empresa_id=empresa_id, historico_id=historico_id)
     if result_del:
-        return jsonify({"message": f"Registro com id: {historico_id} excluído com sucesso!"})
+        return jsonify({"message": f"Registro com id: {historico_id} excluído com sucesso!"}), 200
     else:
         return jsonify({"error": f"Registro com id: {historico_id} não encontrada."}), 404
 
@@ -170,7 +170,7 @@ def get_value_by_id(empresa_id, historico_id):
         return jsonify({"error": f"Registro com id: {historico_id} não encontrado."}), 404
     return jsonify({"baixa": result}   )
 
-@app.route("/api/v1/empresa/<empresa_id>/historico_baixas", methods=["GET"])
+@app.route("/api/v1/empresa/<empresa_id>/historico_baixas/leitura", methods=["POST"])
 def get_values(empresa_id):
     data = request.get_json()
     
