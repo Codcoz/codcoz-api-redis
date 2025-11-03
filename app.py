@@ -3,8 +3,10 @@ import redis
 from datetime import datetime, timedelta
 import os
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # Carregando variáveis de ambiente
 load_dotenv()
